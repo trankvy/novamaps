@@ -692,6 +692,188 @@
     z-index: 2;
   }
 
+  /* ===== BRAND VOICE BLOCK ===== */
+  .voice-block {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+  .voice-inner {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 48px;
+    align-items: start;
+  }
+  .voice-lead {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-60);
+    padding-top: 6px;
+    line-height: 1.8;
+  }
+  .voice-lead .lead-value {
+    display: block;
+    font-family: var(--body);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    text-transform: none;
+    color: var(--ink);
+    margin-top: 4px;
+  }
+  .voice-body {
+    max-width: 640px;
+  }
+  .voice-body h2 {
+    font-size: clamp(28px, 3.5vw, 44px);
+    font-weight: 800;
+    line-height: 1.05;
+    letter-spacing: -0.035em;
+    color: var(--ink);
+    margin-bottom: 20px;
+  }
+  .voice-body h2 em {
+    font-weight: 300;
+    font-style: italic;
+    color: var(--muted);
+  }
+  .voice-body p {
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--ink-60);
+    margin-bottom: 16px;
+  }
+  .voice-body p strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+  @media (max-width: 900px) {
+    .voice-inner { grid-template-columns: 1fr; gap: 24px; }
+  }
+
+  /* ===== FIELD CONTEXT STRIP ===== */
+  .field-strip {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+  .field-strip-inner {
+    background: var(--ink);
+    border-radius: 20px;
+    padding: 48px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 32px;
+    position: relative;
+    overflow: hidden;
+  }
+  .field-strip-inner::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 20% 80%, rgba(241,255,102,0.06), transparent 40%);
+    pointer-events: none;
+  }
+  .field-stat {
+    position: relative;
+    z-index: 2;
+  }
+  .field-stat .stat-value {
+    font-weight: 900;
+    font-size: clamp(36px, 5vw, 64px);
+    line-height: 0.9;
+    letter-spacing: -0.04em;
+    color: var(--chartreuse);
+  }
+  .field-stat .stat-unit {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgba(242,239,234,0.5);
+    margin-top: 12px;
+    display: block;
+  }
+  .field-stat .stat-desc {
+    font-size: 13px;
+    line-height: 1.45;
+    color: rgba(242,239,234,0.55);
+    margin-top: 8px;
+    max-width: 22ch;
+  }
+  @media (max-width: 800px) {
+    .field-strip-inner { grid-template-columns: 1fr; padding: 32px 28px; }
+  }
+
+  /* ===== VOICE PRINCIPLES ===== */
+  .voice-principles {
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 0 40px;
+  }
+  .vp-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .vp-card {
+    border: 1px solid var(--rule);
+    border-radius: 18px;
+    background: var(--cream-2);
+    padding: 36px 32px 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 240px;
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .vp-card:hover { transform: translateY(-4px); }
+  .vp-card .vp-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+  .vp-card .vp-title {
+    font-weight: 800;
+    font-size: clamp(24px, 3vw, 36px);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+  .vp-card .vp-desc {
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--ink-60);
+    max-width: 28ch;
+  }
+  .vp-card .vp-example {
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  .vp-card .vp-example .do-say {
+    color: var(--olive);
+    font-weight: 500;
+  }
+  .vp-card .vp-example .dont-say {
+    color: var(--ink-30);
+    text-decoration: line-through;
+  }
+  @media (max-width: 900px) {
+    .vp-grid { grid-template-columns: 1fr; }
+  }
+
   /* ===== REDUCED MOTION ===== */
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
@@ -710,7 +892,7 @@
     <path d="M12 0 L13.6 10.4 L24 12 L13.6 13.6 L12 24 L10.4 13.6 L0 12 L10.4 10.4 Z"/>
   </svg>
   <h1><span class="word">NOVA</span><br/><span class="word italic">Maps</span></h1>
-  <p class="hero-tagline">Mapping Simplified. Designed for Drones.</p>
+  <p class="hero-tagline">Turn invisible threats into actionable ground intelligence.</p>
   <div class="hero-meta">
     <span><strong>Client</strong> Nova Maps</span>
     <span><strong>Focus</strong> Brand Identity</span>
@@ -737,6 +919,25 @@
   </div>
 </div>
 <p class="caption reveal">Brand mark on thermal gradient &mdash; the heat glow references infrared drone imagery</p>
+
+<div class="spacer"></div>
+
+<!-- ===== BRAND NARRATIVE ===== -->
+<div class="label reveal">— &mdash; The Problem</div>
+<div class="voice-block reveal">
+  <div class="voice-inner">
+    <div class="voice-lead">
+      Brand Archetype
+      <span class="lead-value">The Precision Guardian</span>
+    </div>
+    <div class="voice-body">
+      <h2>Raw thermal data is <em>noise.</em><br/>Nova makes it <em>intelligence.</em></h2>
+      <p>A wildfire crew doesn't need a dashboard. They need to know <strong>where the ground is still burning</strong> — right now, on a phone, in the field.</p>
+      <p>Raw infrared feeds from drones are dense, noisy, and require a trained eye to decode. In an active fire zone, that analysis window doesn't exist. Every minute spent interpreting data is a minute a hotspot goes undetected.</p>
+      <p><strong>Nova Maps eliminates that gap.</strong> AI processes the thermal feed in real time, flags hidden hotspots with confidence scores, and pushes an actionable map directly to ground crews. No training required. No guesswork.</p>
+    </div>
+  </div>
+</div>
 
 <div class="spacer"></div>
 
@@ -916,6 +1117,84 @@
 
 <div class="spacer"></div>
 
+<!-- ===== FIELD CONTEXT ===== -->
+<div class="label reveal">06 &mdash; Field Context</div>
+<div class="field-strip reveal">
+  <div class="field-strip-inner">
+    <div class="field-stat">
+      <div class="stat-value">&lt;4</div>
+      <span class="stat-unit">Minutes</span>
+      <div class="stat-desc">From drone launch to actionable hotspot map on crew devices</div>
+    </div>
+    <div class="field-stat">
+      <div class="stat-value">94%</div>
+      <span class="stat-unit">Confidence</span>
+      <div class="stat-desc">AI detection accuracy across varied terrain and canopy density</div>
+    </div>
+    <div class="field-stat">
+      <div class="stat-value">BC</div>
+      <span class="stat-unit">Kamloops &middot; Pacific Northwest</span>
+      <div class="stat-desc">Built for the rugged, high-stakes reality of western Canada's fire season</div>
+    </div>
+  </div>
+</div>
+<p class="caption reveal">Field performance metrics &mdash; Kamloops, British Columbia test corridor (LAT 50.674, LON &minus;120.332)</p>
+
+<div class="spacer"></div>
+
+<!-- ===== BRAND VOICE PRINCIPLES ===== -->
+<div class="label reveal">07 &mdash; Brand Voice</div>
+<div class="voice-principles reveal">
+  <div class="vp-grid stagger-children">
+    <div class="vp-card reveal">
+      <div>
+        <div class="vp-label">Principle 01</div>
+        <div class="vp-title">Direct &amp; Authoritative</div>
+        <div class="vp-desc">No fluffy jargon. Punchy, active verbs. Every word earns its place.</div>
+      </div>
+      <div class="vp-example">
+        <span class="do-say">&#10003; &ldquo;Detect hotspots instantly. Deploy crews faster.&rdquo;</span><br/>
+        <span class="dont-say">&#10007; &ldquo;Our platform utilizes machine learning to assist users&rdquo;</span>
+      </div>
+    </div>
+    <div class="vp-card reveal">
+      <div>
+        <div class="vp-label">Principle 02</div>
+        <div class="vp-title">Analytical but Grounded</div>
+        <div class="vp-desc">Data provides proof. Messaging ties back to the physical world and the people on the ground.</div>
+      </div>
+      <div class="vp-example">
+        <span class="do-say">&#10003; &ldquo;3 hotspots flagged &middot; 94% confidence &middot; Crew notified&rdquo;</span><br/>
+        <span class="dont-say">&#10007; &ldquo;Advanced neural network processed thermal anomalies&rdquo;</span>
+      </div>
+    </div>
+    <div class="vp-card reveal">
+      <div>
+        <div class="vp-label">Principle 03</div>
+        <div class="vp-title">Mechanically Precise</div>
+        <div class="vp-desc">Motion is snappy and deliberate. Nothing bouncy or playful. This is professional-grade field equipment.</div>
+      </div>
+      <div class="vp-example">
+        <span class="do-say">&#10003; Transitions: 0.35s cubic-bezier(0.16, 1, 0.3, 1)</span><br/>
+        <span class="dont-say">&#10007; Spring-bounce, elastic overshoot, or decorative animation</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="spacer"></div>
+
+<!-- ===== QUOTE BAR ===== -->
+<div class="label reveal">08 &mdash; Brand Promise</div>
+<div class="quote-bar reveal">
+  <div class="quote-bar-inner">
+    <blockquote>&ldquo;We don&rsquo;t make dashboards. We make the <em>invisible</em> visible &mdash; so the people on the ground can act before the fire decides for them.&rdquo;</blockquote>
+    <cite>Nova Maps &middot; Brand Voice</cite>
+  </div>
+</div>
+
+<div class="spacer"></div>
+
 <!-- ===== END CARD ===== -->
 <div class="end-card reveal">
   <div class="end-card-inner">
@@ -923,7 +1202,7 @@
       <path d="M12 0 L13.6 10.4 L24 12 L13.6 13.6 L12 24 L10.4 13.6 L0 12 L10.4 10.4 Z"/>
     </svg>
     <div class="logo-end">nova</div>
-    <div class="end-tagline">Mapping Simplified &middot; Designed for Drones</div>
+    <div class="end-tagline">Invisible threats &rarr; Actionable intelligence &middot; Built for the field</div>
   </div>
 </div>
 
