@@ -17,7 +17,6 @@
     --cream: #F2EFEA;
     --cream-2: #ECEAE4;
     --wine: #33171E;
-
     --char: #0C0A0A;
     --sage: #D8E6E1;
     --olive: #406354;
@@ -25,6 +24,7 @@
     --rule: rgba(25,19,20,0.10);
     --body: "Inter","Helvetica Neue",Arial,sans-serif;
     --mono: "JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html { scroll-behavior: smooth; }
@@ -39,64 +39,28 @@
   }
   a { color: inherit; }
 
-  /* ===== KEYFRAME ANIMATIONS ===== */
-
-  /* Nova-style page fade in */
-  @keyframes pageFadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
+  @keyframes pageFadeIn { from { opacity: 0; } to { opacity: 1; } }
   body { animation: pageFadeIn 0.8s ease-out; }
-
-  /* Hero star slow spin */
-  @keyframes starSpin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-  }
-
-  /* Hero word stagger fade-up — like Nova's per-word entrance */
+  @keyframes starSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
   @keyframes wordFadeUp {
     from { opacity: 0; transform: translateY(40px); filter: blur(4px); }
     to { opacity: 1; transform: translateY(0); filter: blur(0); }
   }
-
-  /* Gentle float for depth */
-  @keyframes floatY {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
-  }
-
-  /* Heat glow breathing — brand card thermal pulse */
   @keyframes heatBreathe {
     0%, 100% { opacity: 0.85; transform: scale(1); }
     50% { opacity: 1; transform: scale(1.03); }
   }
-
-  /* Hotspot ring pulse — live detection feel */
   @keyframes hotspotPulse {
     0% { transform: scale(1); opacity: 1; box-shadow: 0 0 20px rgba(241,255,102,0.15); }
     50% { transform: scale(1.12); opacity: 0.7; box-shadow: 0 0 40px rgba(241,255,102,0.3); }
     100% { transform: scale(1); opacity: 1; box-shadow: 0 0 20px rgba(241,255,102,0.15); }
   }
 
-  /* Timeline bar fill animation */
-  @keyframes barFill {
-    from { width: 0; }
-    to { width: 75%; }
-  }
-
-  /* Scroll-reveal base (elements start hidden, JS adds .in-view) */
   .reveal {
-    opacity: 0;
-    transform: translateY(32px);
-    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    opacity: 0; transform: translateY(32px);
+    transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
   }
-  .reveal.in-view {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  /* Stagger children — swatches, flow steps, weight items */
+  .reveal.in-view { opacity: 1; transform: translateY(0); }
   .stagger-children .reveal { transition-delay: 0s; }
   .stagger-children .reveal:nth-child(1) { transition-delay: 0s; }
   .stagger-children .reveal:nth-child(2) { transition-delay: 0.08s; }
@@ -104,442 +68,262 @@
   .stagger-children .reveal:nth-child(4) { transition-delay: 0.24s; }
   .stagger-children .reveal:nth-child(5) { transition-delay: 0.32s; }
 
-  /* ——— Section spacer ——— */
   .spacer { height: 120px; }
   .spacer-sm { height: 72px; }
   .spacer-lg { height: 160px; }
 
-  /* ——— Section label ——— */
   .label {
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--ink-60);
-    padding: 0 40px;
-    max-width: 1400px;
-    margin: 0 auto 20px;
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--ink-60);
+    padding: 0 40px; max-width: 1400px; margin: 0 auto 20px;
+  }
+  .caption {
+    max-width: 1320px; margin: 14px auto 0; padding: 0 40px;
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; color: var(--muted);
   }
 
   /* ===== HERO ===== */
-  .hero {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 100px 40px 0;
-    text-align: center;
-  }
-  .hero-star {
-    width: 28px; height: 28px;
-    margin: 0 auto 48px;
-    color: var(--ink);
-    animation: starSpin 20s linear infinite, wordFadeUp 0.6s ease-out both;
-    animation-delay: 0s, 0.2s;
+  .hero { max-width: 1400px; margin: 0 auto; padding: 100px 40px 0; text-align: center; }
+  .hero-logo {
+    width: 48px; height: 60px; margin: 0 auto 48px;
+    animation: wordFadeUp 0.6s ease-out both; animation-delay: 0.2s;
   }
   .hero h1 {
-    font-size: clamp(52px, 11vw, 200px);
-    line-height: 0.85;
-    letter-spacing: -0.05em;
-    font-weight: 900;
-    margin: 0;
-    color: var(--ink);
+    font-size: clamp(52px, 11vw, 200px); line-height: 0.85;
+    letter-spacing: -0.05em; font-weight: 900; color: var(--ink);
   }
-  /* Per-word staggered entrance — Nova style */
-  .hero h1 .word {
-    display: inline-block;
-    animation: wordFadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
-  }
+  .hero h1 .word { display: inline-block; animation: wordFadeUp 0.8s var(--ease) both; }
   .hero h1 .word:nth-child(1) { animation-delay: 0.3s; }
   .hero h1 .word:nth-child(2) { animation-delay: 0.5s; }
-  .hero h1 .italic {
-    font-weight: 300;
-    font-style: italic;
-    color: var(--muted);
-  }
+  .hero h1 .italic { font-weight: 300; font-style: italic; color: var(--muted); }
   .hero-tagline {
-    margin-top: 48px;
-    font-size: clamp(16px, 1.6vw, 22px);
-    font-weight: 400;
-    color: var(--ink-60);
-    letter-spacing: -0.01em;
-    animation: wordFadeUp 0.7s ease-out both;
-    animation-delay: 0.7s;
+    margin-top: 48px; font-size: clamp(16px, 1.6vw, 22px); font-weight: 400;
+    color: var(--ink-60); letter-spacing: -0.01em;
+    animation: wordFadeUp 0.7s ease-out both; animation-delay: 0.7s;
+  }
+  .hero-intro {
+    max-width: 680px; margin: 32px auto 0; font-size: 15px; line-height: 1.65;
+    color: var(--ink-60); animation: wordFadeUp 0.7s ease-out both; animation-delay: 0.8s;
   }
   .hero-meta {
-    margin-top: 64px;
-    display: flex;
-    justify-content: center;
-    gap: 48px;
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--ink-60);
-    animation: wordFadeUp 0.7s ease-out both;
-    animation-delay: 0.9s;
+    margin-top: 64px; display: flex; justify-content: center; gap: 48px;
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--ink-60);
+    animation: wordFadeUp 0.7s ease-out both; animation-delay: 0.9s;
   }
-  .hero-meta span strong {
-    color: var(--ink);
-    font-weight: 500;
-  }
+  .hero-meta span strong { color: var(--ink); font-weight: 500; }
 
-  /* ===== BRAND MARK CARD ===== */
-  .mark-card {
-    max-width: 1320px;
-    margin: 0 auto;
-    padding: 0 40px;
-  }
+  /* ===== BRAND MARK ===== */
+  .mark-card { max-width: 1320px; margin: 0 auto; padding: 0 40px; }
   .mark-card-inner {
-    position: relative;
-    border-radius: 20px;
-    overflow: hidden;
-    aspect-ratio: 16 / 9;
-    background: var(--ink);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    position: relative; border-radius: 20px; overflow: hidden;
+    aspect-ratio: 16 / 9; background: var(--ink);
+    display: flex; align-items: center; justify-content: center;
   }
-  /* Heat glow breathing */
   .mark-card-inner::before {
-    content: "";
-    position: absolute;
-    inset: 0;
+    content: ""; position: absolute; inset: 0;
     background:
-      radial-gradient(ellipse 40% 55% at 50% 55%, rgba(241, 255, 102, 0.7), transparent 60%),
-      radial-gradient(ellipse 25% 30% at 50% 55%, rgba(255, 180, 80, 0.4), transparent 50%),
-      radial-gradient(ellipse 12% 16% at 50% 55%, rgba(255, 107, 53, 0.7), transparent 55%);
-    filter: blur(6px);
-    animation: heatBreathe 4s ease-in-out infinite;
+      radial-gradient(ellipse 40% 55% at 50% 55%, rgba(241,255,102,0.7), transparent 60%),
+      radial-gradient(ellipse 25% 30% at 50% 55%, rgba(255,180,80,0.4), transparent 50%),
+      radial-gradient(ellipse 12% 16% at 50% 55%, rgba(255,107,53,0.7), transparent 55%);
+    filter: blur(6px); animation: heatBreathe 4s ease-in-out infinite;
   }
-  .mark-center {
-    position: relative;
-    z-index: 2;
-    text-align: center;
-    color: var(--cream);
-  }
+  .mark-center { position: relative; z-index: 2; text-align: center; color: var(--cream); }
+  .mark-center .logo-mark-main { width: 80px; height: 100px; margin: 0 auto 24px; }
   .mark-center .logo-text {
-    font-weight: 900;
-    font-size: clamp(48px, 8vw, 120px);
-    letter-spacing: -0.04em;
-    line-height: 1;
+    font-weight: 900; font-size: clamp(48px, 8vw, 120px);
+    letter-spacing: -0.04em; line-height: 1;
   }
   .mark-center .logo-sub {
-    font-family: var(--mono);
-    font-size: clamp(10px, 1vw, 13px);
-    letter-spacing: 0.28em;
-    text-transform: uppercase;
-    color: rgba(242,239,234,0.6);
-    margin-top: 16px;
-  }
-  .mark-center .star-icon {
-    width: clamp(24px, 3vw, 40px);
-    height: clamp(24px, 3vw, 40px);
-    color: var(--chartreuse);
-    margin: 0 auto 20px;
-    animation: starSpin 12s linear infinite;
+    font-family: var(--mono); font-size: clamp(10px, 1vw, 13px);
+    letter-spacing: 0.28em; text-transform: uppercase;
+    color: rgba(242,239,234,0.6); margin-top: 16px;
   }
   .mark-corner-tl, .mark-corner-br {
-    position: absolute;
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: rgba(242,239,234,0.45);
-    z-index: 2;
+    position: absolute; font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: rgba(242,239,234,0.45); z-index: 2;
   }
   .mark-corner-tl { top: 28px; left: 32px; }
   .mark-corner-br { bottom: 28px; right: 32px; }
 
+  /* ===== VOICE BLOCK (reused for mark context) ===== */
+  .voice-block { max-width: 1320px; margin: 0 auto; padding: 0 40px; }
+  .voice-inner { display: grid; grid-template-columns: 280px 1fr; gap: 48px; align-items: start; }
+  .voice-lead {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em;
+    text-transform: uppercase; color: var(--ink-60); padding-top: 6px; line-height: 1.8;
+  }
+  .voice-lead .lead-value {
+    display: block; font-family: var(--body); font-size: 14px; font-weight: 600;
+    letter-spacing: -0.01em; text-transform: none; color: var(--ink); margin-top: 4px;
+  }
+  .voice-body { max-width: 640px; }
+  .voice-body h2 {
+    font-size: clamp(28px, 3.5vw, 44px); font-weight: 800; line-height: 1.05;
+    letter-spacing: -0.035em; color: var(--ink); margin-bottom: 20px;
+  }
+  .voice-body h2 em { font-weight: 300; font-style: italic; color: var(--muted); }
+  .voice-body p { font-size: 15px; line-height: 1.65; color: var(--ink-60); margin-bottom: 16px; }
+  .voice-body p strong { color: var(--ink); font-weight: 600; }
+  @media (max-width: 900px) { .voice-inner { grid-template-columns: 1fr; gap: 24px; } }
+
   /* ===== PALETTE ===== */
   .palette-grid {
-    max-width: 1320px;
-    margin: 0 auto;
-    padding: 0 40px;
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 12px;
+    max-width: 1320px; margin: 0 auto; padding: 0 40px;
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px;
   }
   .swatch {
-    aspect-ratio: 3 / 4;
-    border-radius: 14px;
-    position: relative;
-    overflow: hidden;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    gap: 4px;
-    cursor: default;
-    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    aspect-ratio: 3 / 4; position: relative; overflow: hidden;
+    padding: 20px; display: flex; flex-direction: column;
+    justify-content: flex-end; gap: 4px; cursor: default;
+    transition: transform 0.35s var(--ease);
   }
   .swatch:hover { transform: translateY(-4px); }
-  .swatch .name {
-    font-weight: 600;
-    font-size: 15px;
-    letter-spacing: -0.01em;
-  }
-  .swatch .hex {
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.08em;
-    opacity: 0.65;
-  }
+  .swatch .name { font-weight: 600; font-size: 15px; letter-spacing: -0.01em; }
+  .swatch .hex { font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; opacity: 0.65; }
   .sw-chartreuse { background: var(--chartreuse); color: var(--ink); }
-  .sw-ink        { background: var(--ink);        color: var(--cream); }
-  .sw-wine       { background: var(--wine);       color: var(--cream); }
-  .sw-sage       { background: var(--sage);       color: var(--ink); }
-  .sw-cream      { background: var(--cream-2);    color: var(--ink); border: 1px solid var(--rule); }
+  .sw-ink { background: var(--ink); color: var(--cream); }
+  .sw-wine { background: var(--wine); color: var(--cream); }
+  .sw-sage { background: var(--sage); color: var(--ink); }
+  .sw-cream { background: var(--cream-2); color: var(--ink); border: 1px solid var(--rule); }
   @media (max-width: 800px) {
     .palette-grid { grid-template-columns: repeat(2, 1fr); }
     .palette-grid .swatch:last-child { grid-column: span 2; aspect-ratio: auto; min-height: 140px; }
   }
+  .palette-rationale { max-width: 1320px; margin: 0 auto; padding: 0 40px; }
+  .palette-rationale-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .pr-item { padding: 28px 24px; border: 1px solid var(--rule); background: var(--cream-2); }
+  .pr-item .pr-name { font-weight: 700; font-size: 14px; margin-bottom: 4px; }
+  .pr-item .pr-hex { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 12px; }
+  .pr-item .pr-desc { font-size: 14px; line-height: 1.6; color: var(--ink-60); }
+  @media (max-width: 800px) { .palette-rationale-grid { grid-template-columns: 1fr; } }
 
-  /* ===== TYPE SPECIMENS ===== */
+  /* ===== TYPE ===== */
   .type-grid {
-    max-width: 1320px;
-    margin: 0 auto;
-    padding: 0 40px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
+    max-width: 1320px; margin: 0 auto; padding: 0 40px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
   }
   .spec-card {
-    border: 1px solid var(--rule);
-    border-radius: 18px;
-    padding: 40px 36px 32px;
-    background: var(--cream-2);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    min-height: 320px;
-    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    border: 1px solid var(--rule); padding: 40px 36px 32px;
+    background: var(--cream-2); display: flex; flex-direction: column;
+    justify-content: space-between; min-height: 320px;
+    transition: transform 0.35s var(--ease);
   }
   .spec-card:hover { transform: translateY(-4px); }
   .spec-card .display {
-    font-weight: 900;
-    font-size: clamp(56px, 7.5vw, 104px);
-    line-height: 0.88;
-    letter-spacing: -0.045em;
-    color: var(--ink);
+    font-weight: 900; font-size: clamp(56px, 7.5vw, 104px);
+    line-height: 0.88; letter-spacing: -0.045em; color: var(--ink);
   }
-  .spec-card .display .light {
-    font-style: italic;
-    font-weight: 300;
-    color: var(--muted);
-  }
+  .spec-card .display .light { font-style: italic; font-weight: 300; color: var(--muted); }
   .spec-card.mono-card .display {
-    font-family: var(--mono);
-    font-weight: 500;
-    font-size: clamp(28px, 3.5vw, 48px);
-    letter-spacing: 0.01em;
-    line-height: 1.25;
+    font-family: var(--mono); font-weight: 500;
+    font-size: clamp(28px, 3.5vw, 48px); letter-spacing: 0.01em; line-height: 1.25;
   }
   .spec-card .spec-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    gap: 12px;
-    padding-top: 16px;
-    border-top: 1px solid var(--rule);
-    margin-top: 28px;
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--muted);
+    display: flex; justify-content: space-between; align-items: flex-end; gap: 12px;
+    padding-top: 16px; border-top: 1px solid var(--rule); margin-top: 28px;
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--muted);
   }
   .spec-card .spec-footer .val { color: var(--ink); font-weight: 500; }
-  @media (max-width: 800px) {
-    .type-grid { grid-template-columns: 1fr; }
-  }
+  @media (max-width: 800px) { .type-grid { grid-template-columns: 1fr; } }
+  .type-rationale { max-width: 1320px; margin: 0 auto; padding: 0 40px; }
+  .type-rationale-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .tr-item { padding: 28px 24px; border: 1px solid var(--rule); background: var(--cream-2); }
+  .tr-item .tr-face { font-weight: 700; font-size: 14px; margin-bottom: 4px; }
+  .tr-item .tr-spec { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 12px; }
+  .tr-item .tr-desc { font-size: 14px; line-height: 1.6; color: var(--ink-60); }
+  @media (max-width: 800px) { .type-rationale-grid { grid-template-columns: 1fr; } }
 
-  /* ===== WEIGHT RAMP ===== */
-  .weight-ramp {
-    max-width: 1320px;
-    margin: 0 auto;
-    padding: 0 40px;
-  }
+  /* Weight ramp */
+  .weight-ramp { max-width: 1320px; margin: 0 auto; padding: 0 40px; }
   .weight-ramp-inner {
-    border: 1px solid var(--rule);
-    border-radius: 18px;
-    background: var(--cream-2);
-    padding: 40px 36px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0;
+    border: 1px solid var(--rule); background: var(--cream-2);
+    padding: 40px 36px; display: flex; flex-wrap: wrap;
   }
-  .weight-item {
-    flex: 1 1 auto;
-    min-width: 120px;
-    padding: 12px 0;
-  }
-  .weight-item .sample {
-    font-size: 32px;
-    letter-spacing: -0.03em;
-    line-height: 1.1;
-    color: var(--ink);
-  }
+  .weight-item { flex: 1 1 auto; min-width: 120px; padding: 12px 0; }
+  .weight-item .sample { font-size: 32px; letter-spacing: -0.03em; line-height: 1.1; color: var(--ink); }
   .weight-item .w-label {
-    font-family: var(--mono);
-    font-size: 9px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-top: 8px;
+    font-family: var(--mono); font-size: 9px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--muted); margin-top: 8px;
   }
 
-  /* ===== USER FLOW ===== */
-  .flow-container {
-    max-width: 1320px;
-    margin: 0 auto;
-    padding: 0 40px;
-  }
+  /* ===== FLOW ===== */
+  .flow-container { max-width: 1320px; margin: 0 auto; padding: 0 40px; }
   .flow-card {
-    background: var(--ink);
-    border-radius: 20px;
-    padding: 64px 48px 48px;
-    position: relative;
-    overflow: hidden;
+    background: var(--ink); border-radius: 20px; padding: 64px 48px 48px;
+    position: relative; overflow: hidden;
   }
   .flow-card::before {
-    content: "";
-    position: absolute;
-    inset: 0;
+    content: ""; position: absolute; inset: 0;
     background: radial-gradient(circle at 50% 130%, rgba(241,255,102,0.08), transparent 45%);
     pointer-events: none;
   }
-  .flow-steps {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
-    position: relative;
-    z-index: 2;
-  }
-  .flow-step {
-    color: var(--cream);
-  }
-  /* Flow step stagger — each step slides up in sequence */
+  .flow-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; position: relative; z-index: 2; }
+  .flow-step { color: var(--cream); }
   .flow-step.reveal { transform: translateY(40px); }
   .flow-step.reveal.in-view { transform: translateY(0); }
   .flow-step:nth-child(1).reveal { transition-delay: 0s; }
   .flow-step:nth-child(2).reveal { transition-delay: 0.12s; }
   .flow-step:nth-child(3).reveal { transition-delay: 0.24s; }
   .flow-step:nth-child(4).reveal { transition-delay: 0.36s; }
-
   .flow-step .num {
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: var(--chartreuse);
-    margin-bottom: 16px;
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--chartreuse); margin-bottom: 16px;
   }
-  .flow-step .icon-wrap {
-    width: 56px; height: 56px;
-    margin-bottom: 20px;
-  }
-  .flow-step .icon-wrap svg {
-    width: 100%; height: 100%;
-    color: var(--chartreuse);
-  }
+  .flow-step .icon-wrap { width: 56px; height: 56px; margin-bottom: 20px; }
+  .flow-step .icon-wrap svg { width: 100%; height: 100%; color: var(--chartreuse); }
   .flow-step .verb {
-    font-weight: 800;
-    font-size: clamp(32px, 4vw, 52px);
-    line-height: 0.9;
-    letter-spacing: -0.035em;
-    margin-bottom: 12px;
+    font-weight: 800; font-size: clamp(32px, 4vw, 52px); line-height: 0.9;
+    letter-spacing: -0.035em; margin-bottom: 12px;
   }
-  .flow-step .desc {
-    font-size: 13px;
-    line-height: 1.45;
-    color: rgba(242,239,234,0.55);
-    max-width: 20ch;
-  }
-
-  /* Timeline bar — animated fill on scroll */
+  .flow-step .desc { font-size: 13px; line-height: 1.45; color: rgba(242,239,234,0.55); max-width: 24ch; }
   .flow-bar {
-    margin-top: 48px;
-    height: 3px;
-    background: rgba(242,239,234,0.1);
-    border-radius: 99px;
-    position: relative;
-    z-index: 2;
-    overflow: hidden;
+    margin-top: 48px; height: 3px; background: rgba(242,239,234,0.1);
+    border-radius: 99px; position: relative; z-index: 2; overflow: hidden;
   }
   .flow-bar::before {
-    content: "";
-    position: absolute;
-    left: 0; top: 0; height: 100%;
-    width: 0;
+    content: ""; position: absolute; left: 0; top: 0; height: 100%; width: 0;
     background: linear-gradient(90deg, var(--chartreuse), var(--sage));
-    border-radius: 99px;
-    transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-    transition-delay: 0.4s;
+    border-radius: 99px; transition: width 1.2s var(--ease); transition-delay: 0.4s;
   }
-  .flow-bar.in-view::before {
-    width: 75%;
-  }
+  .flow-bar.in-view::before { width: 75%; }
   .flow-time {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 16px;
-    margin-top: 14px;
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: rgba(242,239,234,0.4);
-    position: relative;
-    z-index: 2;
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 14px;
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: rgba(242,239,234,0.4); position: relative; z-index: 2;
   }
   @media (max-width: 900px) {
     .flow-steps, .flow-time { grid-template-columns: repeat(2, 1fr); gap: 32px 16px; }
     .flow-card { padding: 40px 28px; }
   }
 
-  /* ===== PRODUCT FRAME (Before / After) ===== */
+  /* ===== PRODUCT FRAME ===== */
   .product-frame {
-    max-width: 1320px;
-    margin: 0 auto;
-    padding: 0 40px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
+    max-width: 1320px; margin: 0 auto; padding: 0 40px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
   }
   .ir-panel {
-    aspect-ratio: 4 / 3;
-    border-radius: 18px;
-    overflow: hidden;
-    position: relative;
-    background: var(--char);
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    aspect-ratio: 4 / 3; overflow: hidden; position: relative;
+    background: var(--char); transition: transform 0.4s var(--ease);
   }
   .ir-panel:hover { transform: scale(1.015); }
   .ir-panel .tag {
     position: absolute; top: 20px; left: 20px;
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--cream);
-    background: rgba(0,0,0,0.55);
-    backdrop-filter: blur(8px);
-    padding: 7px 12px;
-    border-radius: 8px;
-    z-index: 3;
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--cream);
+    background: rgba(0,0,0,0.55); backdrop-filter: blur(8px);
+    padding: 7px 12px; z-index: 3;
   }
   .ir-panel .coords {
     position: absolute; bottom: 20px; right: 20px;
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    color: rgba(242,239,234,0.5);
-    z-index: 3;
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em;
+    color: rgba(242,239,234,0.5); z-index: 3;
   }
-  /* Raw IR */
   .ir-panel.raw { background: #17181B; }
   .ir-panel.raw::before {
-    content: "";
-    position: absolute; inset: 0;
+    content: ""; position: absolute; inset: 0;
     background:
       radial-gradient(circle at 38% 62%, rgba(200,200,200,0.3), transparent 36%),
       radial-gradient(circle at 62% 48%, rgba(180,180,180,0.2), transparent 40%),
@@ -547,334 +331,514 @@
       linear-gradient(180deg, #1c1d20 0%, #111214 100%);
   }
   .ir-panel.raw::after {
-    content: "";
-    position: absolute; inset: 0;
+    content: ""; position: absolute; inset: 0;
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence baseFrequency='0.85' numOctaves='2' /><feColorMatrix values='0 0 0 0 0.88 0 0 0 0 0.88 0 0 0 0 0.88 0 0 0 0.12 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
-    mix-blend-mode: screen;
-    opacity: 0.7;
+    mix-blend-mode: screen; opacity: 0.7;
   }
-  /* Nova processed */
   .ir-panel.nova { background: var(--ink); }
   .ir-panel.nova::before {
-    content: "";
-    position: absolute; inset: 0;
+    content: ""; position: absolute; inset: 0;
     background:
-      radial-gradient(circle at 38% 62%, rgba(255, 107, 53, 0.8) 0, rgba(241,255,102, 0.5) 8%, transparent 20%),
-      radial-gradient(circle at 62% 48%, rgba(255, 180, 80, 0.6) 0, rgba(241,255,102, 0.4) 6%, transparent 16%),
-      radial-gradient(circle at 70% 72%, rgba(255, 107, 53, 0.5) 0, rgba(241,255,102, 0.3) 5%, transparent 14%),
+      radial-gradient(circle at 38% 62%, rgba(255,107,53,0.8) 0, rgba(241,255,102,0.5) 8%, transparent 20%),
+      radial-gradient(circle at 62% 48%, rgba(255,180,80,0.6) 0, rgba(241,255,102,0.4) 6%, transparent 16%),
+      radial-gradient(circle at 70% 72%, rgba(255,107,53,0.5) 0, rgba(241,255,102,0.3) 5%, transparent 14%),
       linear-gradient(180deg, #12100F 0%, #0B0908 100%);
   }
   .ir-panel.nova::after {
-    content: "";
-    position: absolute; inset: 0;
-    background-image:
-      repeating-radial-gradient(circle at 50% 55%, transparent 0, transparent 20px, rgba(241,255,102,0.04) 21px, transparent 22px);
+    content: ""; position: absolute; inset: 0;
+    background-image: repeating-radial-gradient(circle at 50% 55%, transparent 0, transparent 20px, rgba(241,255,102,0.04) 21px, transparent 22px);
   }
-  /* Hotspot rings — pulsing animation */
   .hotspot-ring {
-    position: absolute;
-    border: 1.5px solid var(--chartreuse);
-    border-radius: 50%;
-    z-index: 2;
-    pointer-events: none;
-    box-shadow: 0 0 20px rgba(241,255,102,0.15);
+    position: absolute; border: 1.5px solid var(--chartreuse); border-radius: 50%;
+    z-index: 2; pointer-events: none; box-shadow: 0 0 20px rgba(241,255,102,0.15);
     animation: hotspotPulse 2.5s ease-in-out infinite;
   }
-  .hotspot-ring.r1 { width: 88px; height: 88px; left: calc(38% - 44px); top: calc(62% - 44px); animation-delay: 0s; }
+  .hotspot-ring.r1 { width: 88px; height: 88px; left: calc(38% - 44px); top: calc(62% - 44px); }
   .hotspot-ring.r2 { width: 68px; height: 68px; left: calc(62% - 34px); top: calc(48% - 34px); animation-delay: 0.6s; }
   .hotspot-ring.r3 { width: 56px; height: 56px; left: calc(70% - 28px); top: calc(72% - 28px); animation-delay: 1.2s; }
   .hotspot-label {
-    position: absolute;
-    font-family: var(--mono);
-    font-size: 9px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--chartreuse);
-    z-index: 3;
+    position: absolute; font-family: var(--mono); font-size: 9px;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--chartreuse); z-index: 3;
   }
   .hotspot-label.l1 { left: calc(38% + 50px); top: calc(62% - 5px); }
   .hotspot-label.l2 { left: calc(62% + 40px); top: calc(48% - 5px); }
   .hotspot-label.l3 { left: calc(70% + 32px); top: calc(72% - 5px); }
   @media (max-width: 800px) { .product-frame { grid-template-columns: 1fr; } }
 
-  /* ===== CAPTION ===== */
-  .caption {
-    max-width: 1320px;
-    margin: 14px auto 0;
-    padding: 0 40px;
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.08em;
-    color: var(--muted);
+  .product-narrative { max-width: 1320px; margin: 0 auto; padding: 0 40px; }
+  .product-narrative-inner { max-width: 680px; }
+  .product-narrative-inner p { font-size: 15px; line-height: 1.65; color: var(--ink-60); margin-bottom: 16px; }
+  .product-narrative-inner p strong { color: var(--ink); font-weight: 600; }
+  .product-narrative-inner blockquote {
+    border-left: 2px solid var(--chartreuse); padding-left: 20px; margin: 24px 0;
+    font-size: 15px; line-height: 1.6; color: var(--ink); font-style: italic;
+  }
+  .product-narrative-inner cite {
+    display: block; font-style: normal; font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-top: 8px;
   }
 
-  /* ===== QUOTE BAR ===== */
-  .quote-bar {
-    max-width: 1320px;
-    margin: 0 auto;
-    padding: 0 40px;
-  }
-  .quote-bar-inner {
-    border-top: 1px solid var(--rule);
-    border-bottom: 1px solid var(--rule);
-    padding: 48px 0;
-  }
-  .quote-bar-inner blockquote {
-    font-size: clamp(20px, 2.4vw, 32px);
-    line-height: 1.2;
-    letter-spacing: -0.02em;
-    font-weight: 500;
-    color: var(--ink);
-  }
-  .quote-bar-inner blockquote em {
-    font-style: italic;
-    font-weight: 300;
-    color: var(--muted);
-  }
-  .quote-bar-inner cite {
-    display: block;
-    margin-top: 20px;
-    font-style: normal;
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--ink-60);
-  }
-
-  /* ===== END CARD ===== */
-  .end-card {
-    max-width: 1320px;
-    margin: 0 auto;
-    padding: 0 40px;
-  }
-  .end-card-inner {
-    background: var(--ink);
-    border-radius: 20px;
-    padding: 80px 48px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .end-card-inner::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background:
-      radial-gradient(ellipse 50% 60% at 50% 50%, rgba(241, 255, 102, 0.06), transparent 60%);
-    pointer-events: none;
-    animation: heatBreathe 5s ease-in-out infinite;
-  }
-  .end-card-inner .logo-end {
-    font-weight: 900;
-    font-size: clamp(36px, 5vw, 72px);
-    letter-spacing: -0.03em;
-    color: var(--cream);
-    position: relative;
-    z-index: 2;
-  }
-  .end-card-inner .star-end {
-    width: 20px; height: 20px;
-    color: var(--chartreuse);
-    margin: 0 auto 16px;
-    position: relative;
-    z-index: 2;
-    animation: starSpin 16s linear infinite;
-  }
-  .end-card-inner .end-tagline {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: rgba(242,239,234,0.45);
-    margin-top: 16px;
-    position: relative;
-    z-index: 2;
-  }
-
-  /* ===== BRAND VOICE BLOCK ===== */
-  .voice-block {
-    max-width: 1320px;
-    margin: 0 auto;
-    padding: 0 40px;
-  }
-  .voice-inner {
-    display: grid;
-    grid-template-columns: 280px 1fr;
-    gap: 48px;
-    align-items: start;
-  }
-  .voice-lead {
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--ink-60);
-    padding-top: 6px;
-    line-height: 1.8;
-  }
-  .voice-lead .lead-value {
-    display: block;
-    font-family: var(--body);
-    font-size: 14px;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-    text-transform: none;
-    color: var(--ink);
-    margin-top: 4px;
-  }
-  .voice-body {
-    max-width: 640px;
-  }
-  .voice-body h2 {
-    font-size: clamp(28px, 3.5vw, 44px);
-    font-weight: 800;
-    line-height: 1.05;
-    letter-spacing: -0.035em;
-    color: var(--ink);
-    margin-bottom: 20px;
-  }
-  .voice-body h2 em {
-    font-weight: 300;
-    font-style: italic;
-    color: var(--muted);
-  }
-  .voice-body p {
-    font-size: 15px;
-    line-height: 1.65;
-    color: var(--ink-60);
-    margin-bottom: 16px;
-  }
-  .voice-body p strong {
-    color: var(--ink);
-    font-weight: 600;
-  }
-  @media (max-width: 900px) {
-    .voice-inner { grid-template-columns: 1fr; gap: 24px; }
-  }
-
-  /* ===== FIELD CONTEXT STRIP ===== */
-  .field-strip {
-    max-width: 1320px;
-    margin: 0 auto;
-    padding: 0 40px;
-  }
+  /* ===== FIELD CONTEXT ===== */
+  .field-strip { max-width: 1320px; margin: 0 auto; padding: 0 40px; }
   .field-strip-inner {
-    background: var(--ink);
-    border-radius: 20px;
-    padding: 48px;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 32px;
-    position: relative;
-    overflow: hidden;
+    background: var(--ink); border-radius: 20px; padding: 48px;
+    display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 32px;
+    position: relative; overflow: hidden;
   }
   .field-strip-inner::before {
-    content: "";
-    position: absolute;
-    inset: 0;
+    content: ""; position: absolute; inset: 0;
     background: radial-gradient(circle at 20% 80%, rgba(241,255,102,0.06), transparent 40%);
     pointer-events: none;
   }
-  .field-stat {
-    position: relative;
-    z-index: 2;
-  }
+  .field-stat { position: relative; z-index: 2; }
   .field-stat .stat-value {
-    font-weight: 900;
-    font-size: clamp(36px, 5vw, 64px);
-    line-height: 0.9;
-    letter-spacing: -0.04em;
-    color: var(--chartreuse);
+    font-weight: 900; font-size: clamp(36px, 5vw, 64px); line-height: 0.9;
+    letter-spacing: -0.04em; color: var(--chartreuse);
   }
   .field-stat .stat-unit {
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    color: rgba(242,239,234,0.5);
-    margin-top: 12px;
-    display: block;
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: rgba(242,239,234,0.5); margin-top: 12px; display: block;
   }
   .field-stat .stat-desc {
-    font-size: 13px;
-    line-height: 1.45;
-    color: rgba(242,239,234,0.55);
-    margin-top: 8px;
-    max-width: 22ch;
+    font-size: 13px; line-height: 1.45; color: rgba(242,239,234,0.55);
+    margin-top: 8px; max-width: 26ch;
   }
-  @media (max-width: 800px) {
-    .field-strip-inner { grid-template-columns: 1fr; padding: 32px 28px; }
+  @media (max-width: 800px) { .field-strip-inner { grid-template-columns: 1fr; padding: 32px 28px; } }
+
+  /* ===== END CARD ===== */
+  .end-card { max-width: 1320px; margin: 0 auto; padding: 0 40px; }
+  .end-card-inner {
+    background: var(--ink); border-radius: 20px; padding: 80px 48px;
+    text-align: center; position: relative; overflow: hidden;
+  }
+  .end-card-inner::before {
+    content: ""; position: absolute; inset: 0;
+    background: radial-gradient(ellipse 50% 60% at 50% 50%, rgba(241,255,102,0.06), transparent 60%);
+    pointer-events: none; animation: heatBreathe 5s ease-in-out infinite;
+  }
+  .end-card-inner .logo-end {
+    font-weight: 900; font-size: clamp(36px, 5vw, 72px);
+    letter-spacing: -0.03em; color: var(--cream); position: relative; z-index: 2;
+  }
+  .end-card-inner .logo-end-mark {
+    width: 40px; height: 50px; margin: 0 auto 16px; position: relative; z-index: 2;
+  }
+  .end-card-inner .end-tagline {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: rgba(242,239,234,0.45); margin-top: 16px;
+    position: relative; z-index: 2; max-width: 560px; margin-left: auto;
+    margin-right: auto; line-height: 1.6;
+  }
+  .end-links {
+    margin-top: 32px; position: relative; z-index: 2;
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
+    color: rgba(242,239,234,0.4); display: flex; justify-content: center; gap: 32px;
   }
 
-  /* ===== VOICE PRINCIPLES ===== */
-  .voice-principles {
-    max-width: 1320px;
-    margin: 0 auto;
-    padding: 0 40px;
+  /* ====================================================
+     SECTION 07 — WHAT I'D DO NEXT (interactive)
+     ==================================================== */
+
+  .s09-intro { max-width: 1320px; margin: 0 auto; padding: 0 40px; }
+  .s09-intro h2 {
+    font-size: clamp(32px, 4.5vw, 56px); font-weight: 900; line-height: 0.95;
+    letter-spacing: -0.04em; color: var(--ink); margin-bottom: 28px;
   }
-  .vp-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-  }
-  .vp-card {
-    border: 1px solid var(--rule);
-    border-radius: 18px;
-    background: var(--cream-2);
-    padding: 36px 32px 28px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    min-height: 240px;
-    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-  .vp-card:hover { transform: translateY(-4px); }
-  .vp-card .vp-label {
-    font-family: var(--mono);
-    font-size: 9px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 16px;
-  }
-  .vp-card .vp-title {
-    font-weight: 800;
-    font-size: clamp(24px, 3vw, 36px);
-    line-height: 0.95;
-    letter-spacing: -0.03em;
-    color: var(--ink);
-    margin-bottom: 12px;
-  }
-  .vp-card .vp-desc {
-    font-size: 13px;
-    line-height: 1.5;
-    color: var(--ink-60);
-    max-width: 28ch;
-  }
-  .vp-card .vp-example {
-    margin-top: auto;
-    padding-top: 20px;
-    border-top: 1px solid var(--rule);
-    font-family: var(--mono);
-    font-size: 10px;
-    letter-spacing: 0.06em;
-    color: var(--muted);
-    line-height: 1.6;
-  }
-  .vp-card .vp-example .do-say {
-    color: var(--olive);
-    font-weight: 500;
-  }
-  .vp-card .vp-example .dont-say {
-    color: var(--ink-30);
-    text-decoration: line-through;
-  }
-  @media (max-width: 900px) {
-    .vp-grid { grid-template-columns: 1fr; }
+  .s09-intro h2 em { font-weight: 300; font-style: italic; color: var(--muted); }
+  .s09-intro-body { max-width: 640px; font-size: 15px; line-height: 1.65; color: var(--ink-60); }
+  .s09-intro-body p { margin-bottom: 16px; }
+  .s09-subhead { max-width: 1320px; margin: 0 auto; padding: 0 40px; }
+  .s09-subhead h3 {
+    font-size: clamp(22px, 3vw, 32px); font-weight: 800;
+    letter-spacing: -0.03em; color: var(--ink);
   }
 
-  /* ===== REDUCED MOTION ===== */
+  /* --- Before / After flip cards --- */
+  .ba-grid {
+    max-width: 1320px; margin: 0 auto; padding: 0 40px;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+  }
+  .ba-card {
+    position: relative; overflow: hidden; cursor: pointer;
+    border: 1px solid var(--rule); background: var(--cream-2);
+    transition: border-color 0.35s var(--ease);
+  }
+  .ba-card:hover { border-color: var(--chartreuse); }
+  .ba-card .ba-visual {
+    position: relative; aspect-ratio: 16/10; background: var(--char); overflow: hidden;
+  }
+  .ba-card .ba-visual::before {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, transparent 50%),
+      linear-gradient(180deg, #1c1d20 0%, #111214 100%);
+  }
+  /* "Before" layer — always visible */
+  .ba-card .ba-before {
+    position: absolute; inset: 0; z-index: 2;
+    display: flex; align-items: center; justify-content: center;
+    transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
+  }
+  /* "After" layer — revealed on hover */
+  .ba-card .ba-after {
+    position: absolute; inset: 0; z-index: 3;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transform: translateY(8px);
+    transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
+  }
+  .ba-card:hover .ba-before { opacity: 0.15; transform: scale(0.97); }
+  .ba-card:hover .ba-after { opacity: 1; transform: translateY(0); }
+  .ba-card .ba-body { padding: 24px; }
+  .ba-card .ba-num {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--chartreuse); color: var(--ink);
+    font-family: var(--mono); font-size: 11px; font-weight: 500; margin-bottom: 12px;
+  }
+  .ba-card .ba-title { font-weight: 700; font-size: 16px; margin-bottom: 8px; }
+  .ba-card .ba-desc { font-size: 13px; line-height: 1.55; color: var(--ink-60); margin-bottom: 12px; }
+  .ba-card .ba-fix {
+    font-size: 13px; line-height: 1.55; color: var(--olive); font-weight: 500;
+    opacity: 0; transform: translateY(6px);
+    transition: opacity 0.4s var(--ease) 0.1s, transform 0.4s var(--ease) 0.1s;
+  }
+  .ba-card:hover .ba-fix { opacity: 1; transform: translateY(0); }
+  .ba-card .ba-hint {
+    position: absolute; top: 12px; right: 12px; z-index: 4;
+    font-family: var(--mono); font-size: 9px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: rgba(242,239,234,0.35);
+    transition: color 0.35s var(--ease);
+  }
+  .ba-card:hover .ba-hint { color: var(--chartreuse); }
+  @media (max-width: 800px) { .ba-grid { grid-template-columns: 1fr; } }
+
+  /* Visual elements inside before/after cards */
+  .mock-blog-card {
+    width: 70%; background: rgba(242,239,234,0.08); overflow: hidden;
+  }
+  .mock-blog-card .mbc-img {
+    aspect-ratio: 16/9; background: rgba(255,255,255,0.04);
+    position: relative;
+  }
+  .mock-blog-card .mbc-img .mbc-x {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    color: #ff6b6b; font-size: 28px; font-weight: 300; opacity: 0.6;
+  }
+  .mock-blog-card .mbc-text { padding: 10px 12px; }
+  .mock-blog-card .mbc-text div {
+    height: 6px; background: rgba(242,239,234,0.15); margin-bottom: 6px; width: 70%;
+  }
+  .mock-blog-card .mbc-text div:last-child { width: 40%; margin-bottom: 0; }
+
+  /* "After" blog card */
+  .mock-blog-card-fixed {
+    width: 70%; background: rgba(241,255,102,0.06); border: 1px solid rgba(241,255,102,0.15);
+    overflow: hidden; transition: transform 0.35s var(--ease);
+  }
+  .mock-blog-card-fixed:hover { transform: scale(1.03); }
+  .mock-blog-card-fixed .mbc-img {
+    aspect-ratio: 16/9; background: rgba(241,255,102,0.04); position: relative;
+  }
+  .mock-blog-card-fixed .mbc-img .mbc-check {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    color: var(--chartreuse); font-size: 28px; font-weight: 300; opacity: 0.8;
+  }
+  .mock-blog-card-fixed .mbc-text { padding: 10px 12px; }
+  .mock-blog-card-fixed .mbc-text div {
+    height: 6px; background: rgba(241,255,102,0.15); margin-bottom: 6px; width: 70%;
+  }
+  .mock-blog-card-fixed .mbc-text div:last-child { width: 40%; margin-bottom: 0; }
+
+  /* Mock screenshots in before/after */
+  .mock-screenshots {
+    display: flex; gap: 8px; width: 80%; justify-content: center;
+  }
+  .mock-ss {
+    flex: 1; aspect-ratio: 4/3; background: rgba(255,255,255,0.05);
+    position: relative; overflow: hidden;
+  }
+  .mock-ss.tall { aspect-ratio: 3/4; }
+  .mock-ss.wide { flex: 1.5; }
+  .mock-ss-label {
+    position: absolute; bottom: 6px; left: 8px;
+    font-family: var(--mono); font-size: 8px; letter-spacing: 0.1em;
+    color: rgba(242,239,234,0.3); text-transform: uppercase;
+  }
+
+  /* Fixed screenshots */
+  .mock-screenshots-fixed {
+    display: flex; gap: 8px; width: 80%; justify-content: center;
+  }
+  .mock-ss-fixed {
+    flex: 1; aspect-ratio: 4/3; background: rgba(241,255,102,0.04);
+    border: 1px solid rgba(241,255,102,0.12); position: relative; overflow: hidden;
+  }
+  .mock-ss-fixed .msf-label {
+    position: absolute; top: 6px; left: 8px;
+    font-family: var(--mono); font-size: 8px; letter-spacing: 0.1em;
+    color: var(--chartreuse); text-transform: uppercase; opacity: 0.7;
+  }
+
+  /* Mock annotation dots */
+  .mock-dot {
+    position: absolute; width: 16px; height: 16px; border-radius: 50%;
+    background: var(--chartreuse); display: flex; align-items: center; justify-content: center;
+    font-family: var(--mono); font-size: 8px; color: var(--ink); font-weight: 500;
+    box-shadow: 0 0 10px rgba(241,255,102,0.4);
+  }
+  .mock-dot-line {
+    position: absolute; width: 1px; background: rgba(241,255,102,0.3);
+  }
+
+  /* Mock video play */
+  .mock-video-area {
+    width: 75%; aspect-ratio: 16/9; background: rgba(255,255,255,0.03);
+    position: relative; display: flex; align-items: center; justify-content: center;
+  }
+  .mock-video-fixed {
+    width: 75%; aspect-ratio: 16/9; background: rgba(241,255,102,0.03);
+    border: 1px solid rgba(241,255,102,0.1);
+    position: relative; display: flex; align-items: center; justify-content: center;
+  }
+  .mock-play {
+    width: 40px; height: 40px; border-radius: 50%; background: var(--chartreuse);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .mock-play svg { width: 14px; height: 14px; color: var(--ink); margin-left: 2px; }
+  .mock-play-duration {
+    position: absolute; bottom: 8px; right: 10px;
+    font-family: var(--mono); font-size: 9px; color: rgba(242,239,234,0.4);
+    letter-spacing: 0.08em;
+  }
+
+  /* --- Template Carousel --- */
+  .carousel-wrap {
+    max-width: 1320px; margin: 0 auto; padding: 0 40px;
+    position: relative;
+  }
+  .carousel-track {
+    display: flex; overflow-x: auto; scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch; scrollbar-width: none; gap: 0;
+  }
+  .carousel-track::-webkit-scrollbar { display: none; }
+  .carousel-slide {
+    flex: 0 0 100%; scroll-snap-align: start; min-width: 0;
+  }
+  .carousel-nav {
+    display: flex; justify-content: center; align-items: center;
+    gap: 12px; margin-top: 24px;
+  }
+  .carousel-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--ink-30); border: none; cursor: pointer;
+    transition: background 0.35s var(--ease), transform 0.35s var(--ease);
+    padding: 0;
+  }
+  .carousel-dot.active { background: var(--ink); transform: scale(1.3); }
+  .carousel-arrow {
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 1px solid var(--rule); background: var(--cream-2);
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: background 0.35s var(--ease), border-color 0.35s var(--ease);
+    font-size: 14px; color: var(--ink);
+  }
+  .carousel-arrow:hover { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+  .carousel-counter {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em;
+    color: var(--muted); margin: 0 8px;
+  }
+
+  /* Slide: Jake Banner */
+  .slide-banner {
+    background: var(--ink); padding: 48px; position: relative; overflow: hidden;
+  }
+  .slide-banner::before {
+    content: ""; position: absolute; inset: 0;
+    background: radial-gradient(circle at 0% 50%, rgba(241,255,102,0.06), transparent 40%);
+    pointer-events: none;
+  }
+  .slide-banner .sb-series {
+    font-family: var(--mono); font-size: 13px; font-weight: 500;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--chartreuse); margin-bottom: 12px; position: relative; z-index: 2;
+  }
+  .slide-banner .sb-topic {
+    font-weight: 800; font-size: clamp(28px, 4vw, 48px);
+    letter-spacing: -0.03em; color: var(--cream); line-height: 0.95;
+    position: relative; z-index: 2;
+  }
+  .slide-banner .sb-meta {
+    margin-top: 20px; display: flex; gap: 16px; position: relative; z-index: 2;
+  }
+  .slide-banner .sb-tag {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--chartreuse);
+    border: 1px solid rgba(241,255,102,0.25); padding: 5px 12px;
+  }
+  .slide-banner .sb-time {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em;
+    color: rgba(242,239,234,0.4); padding: 5px 0;
+  }
+  .slide-banner .sb-caption {
+    margin-top: 32px; padding-top: 20px; border-top: 1px solid rgba(242,239,234,0.08);
+    font-size: 13px; line-height: 1.55; color: rgba(242,239,234,0.4);
+    max-width: 480px; position: relative; z-index: 2;
+  }
+
+  /* Slide: Why It Matters zone */
+  .slide-why {
+    display: grid; grid-template-columns: 1fr 300px; gap: 32px;
+    background: var(--cream-2); border: 1px solid var(--rule); padding: 48px;
+  }
+  .slide-why .sw-text { max-width: 480px; }
+  .slide-why .sw-pullquote {
+    font-size: clamp(20px, 2.5vw, 28px); font-weight: 600; line-height: 1.2;
+    letter-spacing: -0.02em; color: var(--ink); margin-bottom: 20px;
+  }
+  .slide-why .sw-body { font-size: 14px; line-height: 1.65; color: var(--ink-60); }
+  .slide-why .sw-stat {
+    background: var(--ink); padding: 32px 24px; text-align: center;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+  .slide-why .sw-stat-num {
+    font-weight: 900; font-size: 44px; letter-spacing: -0.03em;
+    color: var(--chartreuse); line-height: 1;
+  }
+  .slide-why .sw-stat-label {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: rgba(242,239,234,0.5); margin-top: 10px;
+  }
+  .slide-why .sw-stat-detail {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.06em;
+    color: rgba(242,239,234,0.35); margin-top: 12px; line-height: 1.5;
+  }
+  .slide-why .sw-caption {
+    margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--rule);
+    font-size: 13px; line-height: 1.55; color: var(--muted); max-width: 480px;
+  }
+  @media (max-width: 800px) { .slide-why { grid-template-columns: 1fr; } }
+
+  /* Slide: Video Steps */
+  .slide-steps { background: var(--sage); padding: 48px; }
+  .slide-steps .ss-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+  }
+  .step-card {
+    background: white; overflow: hidden;
+    transition: transform 0.35s var(--ease);
+  }
+  .step-card:hover { transform: translateY(-4px); }
+  .step-card .sc-visual {
+    aspect-ratio: 16/10; background: var(--char); position: relative;
+    display: flex; align-items: center; justify-content: center; overflow: hidden;
+  }
+  .step-card .sc-visual::before {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, transparent 50%),
+      linear-gradient(180deg, #1c1d20 0%, #111214 100%);
+  }
+  .step-card .sc-play {
+    width: 44px; height: 44px; border-radius: 50%; background: var(--chartreuse);
+    display: flex; align-items: center; justify-content: center;
+    position: relative; z-index: 2; cursor: pointer;
+    transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease);
+  }
+  .step-card .sc-play:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 30px rgba(241,255,102,0.4);
+  }
+  .step-card .sc-play svg { width: 14px; height: 14px; color: var(--ink); margin-left: 2px; }
+  .step-card .sc-duration {
+    position: absolute; bottom: 8px; right: 10px; z-index: 2;
+    font-family: var(--mono); font-size: 9px; letter-spacing: 0.08em;
+    color: rgba(242,239,234,0.45);
+  }
+  .step-card .sc-dot {
+    position: absolute; z-index: 3;
+    width: 20px; height: 20px; border-radius: 50%; background: var(--chartreuse);
+    font-family: var(--mono); font-size: 9px; color: var(--ink); font-weight: 500;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 0 10px rgba(241,255,102,0.3);
+    opacity: 0; transition: opacity 0.35s var(--ease);
+  }
+  .step-card:hover .sc-dot { opacity: 1; }
+  .step-card .sc-body { padding: 16px 20px 20px; }
+  .step-card .sc-num {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--olive); margin-bottom: 6px;
+  }
+  .step-card .sc-title { font-weight: 700; font-size: 15px; margin-bottom: 6px; }
+  .step-card .sc-desc { font-size: 13px; line-height: 1.5; color: var(--ink-60); }
+  .slide-steps .ss-caption {
+    margin-top: 24px; padding-top: 16px; border-top: 1px solid rgba(25,19,20,0.08);
+    font-size: 13px; line-height: 1.55; color: var(--muted); max-width: 560px;
+  }
+  @media (max-width: 800px) { .slide-steps .ss-grid { grid-template-columns: 1fr; } }
+
+  /* Slide: Blog Cards */
+  .slide-blog { background: var(--cream-2); border: 1px solid var(--rule); padding: 48px; }
+  .slide-blog .sbl-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 32px; align-items: start;
+  }
+  .blog-mock {
+    overflow: hidden; position: relative;
+    transition: transform 0.35s var(--ease);
+  }
+  .blog-mock .bm-image {
+    aspect-ratio: 16/9; background: var(--char); position: relative;
+  }
+  .blog-mock .bm-image::before {
+    content: ""; position: absolute; inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, transparent 60%),
+      linear-gradient(180deg, #1e1f22 0%, #141517 100%);
+  }
+  .blog-mock .bm-body { padding: 14px 16px 16px; background: white; }
+  .blog-mock .bm-tag {
+    font-family: var(--mono); font-size: 9px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 6px;
+  }
+  .blog-mock .bm-title { font-weight: 700; font-size: 15px; margin-bottom: 4px; }
+  .blog-mock .bm-date {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; color: var(--muted);
+  }
+  .blog-mock .bm-indicator {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; font-weight: 500;
+    z-index: 2; padding: 6px 14px;
+  }
+  .blog-mock .bm-indicator.bad {
+    color: #ff6b6b; border: 1.5px dashed rgba(255,107,107,0.3); background: rgba(255,107,107,0.06);
+  }
+  .blog-mock .bm-indicator.good {
+    color: var(--chartreuse); border: 1.5px solid rgba(241,255,102,0.25); background: rgba(241,255,102,0.06);
+  }
+  .blog-mock.proposed {
+    cursor: pointer; border: 1px solid transparent;
+    transition: border-color 0.35s var(--ease), transform 0.35s var(--ease);
+  }
+  .blog-mock.proposed:hover {
+    border-color: var(--chartreuse); transform: translateY(-4px);
+  }
+  .slide-blog .sbl-labels {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 12px;
+  }
+  .slide-blog .sbl-label {
+    text-align: center; font-family: var(--mono); font-size: 10px;
+    letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted);
+  }
+  .slide-blog .sbl-caption {
+    margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--rule);
+    font-size: 13px; line-height: 1.55; color: var(--muted); max-width: 560px;
+  }
+  @media (max-width: 700px) {
+    .slide-blog .sbl-grid, .slide-blog .sbl-labels { grid-template-columns: 1fr; }
+  }
+
+  /* Closing */
+  .s09-closing { max-width: 1320px; margin: 0 auto; padding: 0 40px; }
+  .s09-closing-inner { max-width: 640px; }
+  .s09-closing-inner p { font-size: 15px; line-height: 1.65; color: var(--ink-60); margin-bottom: 16px; }
+  .s09-closing-inner p strong { color: var(--ink); font-weight: 600; }
+
   @media (prefers-reduced-motion: reduce) {
     *, *::before, *::after {
       animation-duration: 0.01ms !important;
@@ -886,310 +850,338 @@
 </head>
 <body>
 
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none;">
+  <symbol id="nova-logo" viewBox="0 0 40 50">
+    <rect x="2" y="2" width="36" height="46" rx="10" ry="10" fill="currentColor"/>
+    <path d="M20 10 L22.5 17.5 L30 20 L22.5 22.5 L20 30 L17.5 22.5 L10 20 L17.5 17.5Z" fill="var(--ink, #191314)"/>
+  </symbol>
+</svg>
+
 <!-- ===== HERO ===== -->
 <section class="hero">
-  <svg class="hero-star" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-    <path d="M12 0 L13.6 10.4 L24 12 L13.6 13.6 L12 24 L10.4 13.6 L0 12 L10.4 10.4 Z"/>
+  <svg class="hero-logo" aria-hidden="true" style="color: var(--chartreuse);">
+    <use href="#nova-logo"/>
   </svg>
   <h1><span class="word">NOVA</span><br/><span class="word italic">Maps</span></h1>
-  <p class="hero-tagline">Turn invisible threats into actionable ground intelligence.</p>
+  <p class="hero-tagline">Turn complex drone data into maps your crew can act on.</p>
+  <p class="hero-intro">Nova Maps is the software arm of Hummingbird Drones &mdash; built by former BC Wildfire Service firefighters who needed mapping tools that didn&rsquo;t exist on the fireline. This brand concept explores how Nova&rsquo;s visual identity can better reflect the precision, clarity, and reliability that its product already delivers.</p>
   <div class="hero-meta">
     <span><strong>Client</strong> Nova Maps</span>
-    <span><strong>Focus</strong> Brand Identity</span>
-    <span><strong>Feature</strong> Hotspot Detection</span>
+    <span><strong>Focus</strong> Brand Identity &middot; Visual System</span>
+    <span><strong>Scope</strong> Palette, Typography, Voice, Product Framing</span>
     <span><strong>Date</strong> April 2026</span>
   </div>
 </section>
 
 <div class="spacer-lg"></div>
 
-<!-- ===== BRAND MARK CARD ===== -->
+<!-- ===== 01 BRAND MARK ===== -->
 <div class="label reveal">01 &mdash; Brand Mark</div>
 <div class="mark-card reveal">
   <div class="mark-card-inner">
     <span class="mark-corner-tl">Brand Concept &middot; Nova Maps</span>
     <span class="mark-corner-br">mapnova.com</span>
     <div class="mark-center">
-      <svg class="star-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-        <path d="M12 0 L13.6 10.4 L24 12 L13.6 13.6 L12 24 L10.4 13.6 L0 12 L10.4 10.4 Z"/>
+      <svg class="logo-mark-main" aria-hidden="true" style="color: var(--chartreuse);">
+        <use href="#nova-logo"/>
       </svg>
       <div class="logo-text">nova</div>
       <div class="logo-sub">Mapping Simplified</div>
     </div>
   </div>
 </div>
-<p class="caption reveal">Brand mark on thermal gradient &mdash; the heat glow references infrared drone imagery</p>
+<p class="caption reveal">Brand mark set against a thermal gradient &mdash; referencing the infrared imagery that Nova&rsquo;s AI processes into actionable hotspot maps.</p>
 
-<div class="spacer"></div>
+<div class="spacer-sm"></div>
 
-<!-- ===== BRAND NARRATIVE ===== -->
-<div class="label reveal">— &mdash; The Problem</div>
 <div class="voice-block reveal">
   <div class="voice-inner">
-    <div class="voice-lead">
-      Brand Archetype
-      <span class="lead-value">The Precision Guardian</span>
-    </div>
+    <div class="voice-lead">Mark Context</div>
     <div class="voice-body">
-      <h2>Raw thermal data is <em>noise.</em><br/>Nova makes it <em>intelligence.</em></h2>
-      <p>A wildfire crew doesn't need a dashboard. They need to know <strong>where the ground is still burning</strong> — right now, on a phone, in the field.</p>
-      <p>Raw infrared feeds from drones are dense, noisy, and require a trained eye to decode. In an active fire zone, that analysis window doesn't exist. Every minute spent interpreting data is a minute a hotspot goes undetected.</p>
-      <p><strong>Nova Maps eliminates that gap.</strong> AI processes the thermal feed in real time, flags hidden hotspots with confidence scores, and pushes an actionable map directly to ground crews. No training required. No guesswork.</p>
+      <p>The spark in Nova&rsquo;s existing logomark carries the right idea &mdash; a point of light emerging from data. The thermal gradient grounds it in the product&rsquo;s core visual language: the color spectrum that crews see when drone imagery reveals what&rsquo;s hidden beneath canopy, smoke, or darkness.</p>
     </div>
   </div>
 </div>
 
 <div class="spacer"></div>
 
-<!-- ===== COLOR PALETTE ===== -->
+<!-- ===== 02 COLOR PALETTE ===== -->
 <div class="label reveal">02 &mdash; Color Palette</div>
 <div class="palette-grid stagger-children">
-  <div class="swatch sw-chartreuse reveal">
-    <div class="name">Chartreuse</div>
-    <div class="hex">#F1FF66</div>
-  </div>
-  <div class="swatch sw-ink reveal">
-    <div class="name">Ink</div>
-    <div class="hex">#191314</div>
-  </div>
-  <div class="swatch sw-wine reveal">
-    <div class="name">Wine</div>
-    <div class="hex">#33171E</div>
-  </div>
-  <div class="swatch sw-sage reveal">
-    <div class="name">Sage</div>
-    <div class="hex">#D8E6E1</div>
-  </div>
-  <div class="swatch sw-cream reveal">
-    <div class="name">Cream</div>
-    <div class="hex">#ECEAE4</div>
+  <div class="swatch sw-chartreuse reveal"><div class="name">Chartreuse</div><div class="hex">#F1FF66</div></div>
+  <div class="swatch sw-ink reveal"><div class="name">Ink</div><div class="hex">#191314</div></div>
+  <div class="swatch sw-wine reveal"><div class="name">Wine</div><div class="hex">#33171E</div></div>
+  <div class="swatch sw-sage reveal"><div class="name">Sage</div><div class="hex">#D8E6E1</div></div>
+  <div class="swatch sw-cream reveal"><div class="name">Cream</div><div class="hex">#ECEAE4</div></div>
+</div>
+
+<div class="spacer-sm"></div>
+
+<div class="palette-rationale reveal">
+  <div class="palette-rationale-grid stagger-children">
+    <div class="pr-item reveal"><div class="pr-name">Chartreuse</div><div class="pr-hex">#F1FF66</div><div class="pr-desc">Extracted from Nova&rsquo;s own product interface &mdash; the highlight color used to flag hotspots, annotations, and points of attention on the map. Promoting it to brand level creates continuity between the marketing site and the moment a crew leader sees a hotspot appear on their tablet.</div></div>
+    <div class="pr-item reveal"><div class="pr-name">Ink</div><div class="pr-hex">#191314</div><div class="pr-desc">Not pure black. It has warmth. It references the dark-mode environment where Nova is actually used &mdash; field tablets at night, command post monitors, low-light conditions during mop-up operations.</div></div>
+    <div class="pr-item reveal"><div class="pr-name">Wine</div><div class="pr-hex">#33171E</div><div class="pr-desc">The deep red-brown of ember glow in low light. Fire is always present in this brand&rsquo;s story, and Wine keeps it in the palette&rsquo;s periphery &mdash; a felt presence, not an alarm bell.</div></div>
+    <div class="pr-item reveal"><div class="pr-name">Sage &amp; Cream</div><div class="pr-hex">#D8E6E1 &middot; #ECEAE4</div><div class="pr-desc">The grey-green of BC&rsquo;s interior landscape &mdash; Kamloops, the Okanagan, the terrain these drones fly over every season. Cream provides a warm white for light-mode contexts, documentation, and partner materials.</div></div>
   </div>
 </div>
-<p class="caption reveal">Primary palette extracted from mapnova.com</p>
+<p class="caption reveal">Primary palette extracted from Nova&rsquo;s product UI, field photography, and BC geography. None of these colors are invented &mdash; they&rsquo;re promoted from assets that already exist.</p>
 
 <div class="spacer"></div>
 
-<!-- ===== TYPE SPECIMENS ===== -->
+<!-- ===== 03 TYPOGRAPHY ===== -->
 <div class="label reveal">03 &mdash; Typography</div>
 <div class="type-grid stagger-children">
-  <div class="spec-card reveal">
-    <div class="display">Hot<span class="light">spot.</span></div>
-    <div class="spec-footer">
-      <span><span class="val">Inter 900</span> &middot; Display</span>
-      <span>&minus;4% tracking</span>
-    </div>
-  </div>
-  <div class="spec-card mono-card reveal">
-    <div class="display">HS 274 &middot; 03:14<br/>LAT 50.67<br/>LON &minus;120.33</div>
-    <div class="spec-footer">
-      <span><span class="val">JetBrains Mono 500</span> &middot; Data</span>
-      <span>+14% tracking</span>
-    </div>
+  <div class="spec-card reveal"><div class="display">Hot<span class="light">spot.</span></div><div class="spec-footer"><span><span class="val">Inter 900</span> &middot; Display</span><span>&minus;4% tracking</span></div></div>
+  <div class="spec-card mono-card reveal"><div class="display">HS 274 &middot; 03:14<br/>LAT 50.67<br/>LON &minus;120.33</div><div class="spec-footer"><span><span class="val">JetBrains Mono 500</span> &middot; Data</span><span>+14% tracking</span></div></div>
+</div>
+
+<div class="spacer-sm"></div>
+
+<div class="type-rationale reveal">
+  <div class="type-rationale-grid stagger-children">
+    <div class="tr-item reveal"><div class="tr-face">Inter Black (900)</div><div class="tr-spec">Display &middot; &minus;4% Tracking</div><div class="tr-desc">At this weight and tracking, Inter becomes a different typeface. Dense, commanding, zero softness. It reads the way professional instrumentation feels &mdash; aviation gauges, mission planning software, the tools this audience already trusts.</div></div>
+    <div class="tr-item reveal"><div class="tr-face">JetBrains Mono (500)</div><div class="tr-spec">Data &middot; +14% Tracking</div><div class="tr-desc">Monospaced tabular figures align perfectly &mdash; because when a pilot reads LAT 50.674 &middot; LON &minus;120.332 from a tablet in smoke, alignment isn&rsquo;t a design preference. It&rsquo;s a readability requirement.</div></div>
   </div>
 </div>
 
 <div class="spacer-sm"></div>
 
-<!-- Weight ramp -->
 <div class="weight-ramp reveal">
   <div class="weight-ramp-inner">
-    <div class="weight-item">
-      <div class="sample" style="font-weight:300;">Nova</div>
-      <div class="w-label">Light 300</div>
-    </div>
-    <div class="weight-item">
-      <div class="sample" style="font-weight:400;">Nova</div>
-      <div class="w-label">Regular 400</div>
-    </div>
-    <div class="weight-item">
-      <div class="sample" style="font-weight:600;">Nova</div>
-      <div class="w-label">Semibold 600</div>
-    </div>
-    <div class="weight-item">
-      <div class="sample" style="font-weight:700;">Nova</div>
-      <div class="w-label">Bold 700</div>
-    </div>
-    <div class="weight-item">
-      <div class="sample" style="font-weight:900;">Nova</div>
-      <div class="w-label">Black 900</div>
-    </div>
+    <div class="weight-item"><div class="sample" style="font-weight:300;">Nova</div><div class="w-label">Light 300</div></div>
+    <div class="weight-item"><div class="sample" style="font-weight:400;">Nova</div><div class="w-label">Regular 400</div></div>
+    <div class="weight-item"><div class="sample" style="font-weight:600;">Nova</div><div class="w-label">Semibold 600</div></div>
+    <div class="weight-item"><div class="sample" style="font-weight:700;">Nova</div><div class="w-label">Bold 700</div></div>
+    <div class="weight-item"><div class="sample" style="font-weight:900;">Nova</div><div class="w-label">Black 900</div></div>
   </div>
 </div>
-<p class="caption reveal">Inter weight ramp &mdash; display uses Black 900, body uses Regular 400, data uses JetBrains Mono</p>
+<p class="caption reveal">A single family across display and body keeps the system lean. Inter is already in use in Nova&rsquo;s application interface &mdash; continuity between product and brand.</p>
 
 <div class="spacer"></div>
 
-<!-- ===== USER FLOW ===== -->
+<!-- ===== 04 HOW IT WORKS ===== -->
 <div class="label reveal">04 &mdash; How It Works</div>
 <div class="flow-container reveal">
   <div class="flow-card">
     <div class="flow-steps">
       <div class="flow-step reveal">
         <div class="num">01</div>
-        <div class="icon-wrap">
-          <svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
-            <circle cx="28" cy="18" r="9"/>
-            <path d="M12 48 C12 37 19 33 28 33 C37 33 44 37 44 48"/>
-            <path d="M5 7 L16 12 M51 7 L40 12"/>
-          </svg>
-        </div>
+        <div class="icon-wrap"><svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="28" cy="18" r="9"/><path d="M12 48 C12 37 19 33 28 33 C37 33 44 37 44 48"/><path d="M5 7 L16 12 M51 7 L40 12"/></svg></div>
         <div class="verb">Fly</div>
-        <div class="desc">Pilot launches drone over fire area</div>
+        <div class="desc">Launch your drone over the incident, fire, or search area.</div>
       </div>
       <div class="flow-step reveal">
         <div class="num">02</div>
-        <div class="icon-wrap">
-          <svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
-            <rect x="22" y="22" width="12" height="12" rx="2"/>
-            <circle cx="12" cy="12" r="5"/>
-            <circle cx="44" cy="12" r="5"/>
-            <circle cx="12" cy="44" r="5"/>
-            <circle cx="44" cy="44" r="5"/>
-            <path d="M17 17 L22 22 M39 17 L34 22 M17 39 L22 34 M39 39 L34 34"/>
-            <circle cx="28" cy="28" r="2" fill="currentColor"/>
-          </svg>
-        </div>
+        <div class="icon-wrap"><svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><rect x="22" y="22" width="12" height="12" rx="2"/><circle cx="12" cy="12" r="5"/><circle cx="44" cy="12" r="5"/><circle cx="12" cy="44" r="5"/><circle cx="44" cy="44" r="5"/><path d="M17 17 L22 22 M39 17 L34 22 M17 39 L22 34 M39 39 L34 34"/><circle cx="28" cy="28" r="2" fill="currentColor"/></svg></div>
         <div class="verb">Capture</div>
-        <div class="desc">Thermal camera records infrared imagery</div>
+        <div class="desc">Thermal and RGB imagery is recorded during flight &mdash; with Rapid Mode, sent to Nova in real time.</div>
       </div>
       <div class="flow-step reveal">
         <div class="num">03</div>
-        <div class="icon-wrap">
-          <svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
-            <circle cx="28" cy="28" r="20"/>
-            <path d="M10 28 L20 28 M36 28 L46 28 M28 10 L28 20 M28 36 L28 46"/>
-            <circle cx="28" cy="28" r="7" fill="currentColor" fill-opacity="0.3"/>
-            <path d="M17 17 L22 22 M39 17 L34 22 M17 39 L22 34 M39 39 L34 34"/>
-          </svg>
-        </div>
+        <div class="icon-wrap"><svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><circle cx="28" cy="28" r="20"/><path d="M10 28 L20 28 M36 28 L46 28 M28 10 L28 20 M28 36 L28 46"/><circle cx="28" cy="28" r="7" fill="currentColor" fill-opacity="0.3"/><path d="M17 17 L22 22 M39 17 L34 22 M17 39 L22 34 M39 39 L34 34"/></svg></div>
         <div class="verb">Detect</div>
-        <div class="desc">AI flags hidden hotspots automatically</div>
+        <div class="desc">AI flags hotspots, orthomosaics stitch, color anomalies surface. Three clicks.</div>
       </div>
       <div class="flow-step reveal">
         <div class="num">04</div>
-        <div class="icon-wrap">
-          <svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round">
-            <rect x="17" y="5" width="22" height="46" rx="4"/>
-            <path d="M17 12 L39 12 M17 44 L39 44"/>
-            <circle cx="28" cy="37" r="2" fill="currentColor"/>
-            <path d="M23 20 L33 20 M23 25 L30 25" stroke-linecap="round"/>
-          </svg>
-        </div>
+        <div class="icon-wrap"><svg viewBox="0 0 56 56" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"><rect x="17" y="5" width="22" height="46" rx="4"/><path d="M17 12 L39 12 M17 44 L39 44"/><circle cx="28" cy="37" r="2" fill="currentColor"/><path d="M23 20 L33 20 M23 25 L30 25" stroke-linecap="round"/></svg></div>
         <div class="verb">Act</div>
-        <div class="desc">Map pushes to crew on the ground</div>
+        <div class="desc">A mission-ready map pushes to every crew member, incident manager, and agency leader who needs it.</div>
       </div>
     </div>
-
     <div class="flow-bar" aria-hidden="true"></div>
-    <div class="flow-time">
-      <div>T+0 min</div>
-      <div>T+2 min</div>
-      <div>T+3 min</div>
-      <div>T+4 min</div>
-    </div>
+    <div class="flow-time"><div>T+0 min</div><div>T+2 min</div><div>T+3 min</div><div>T+4 min</div></div>
   </div>
 </div>
-<p class="caption reveal">User flow &mdash; from drone takeoff to hotspot map delivered to crew</p>
+<p class="caption reveal">From drone launch to actionable map in minutes. With Rapid Mode enabled, processing begins during flight.</p>
 
 <div class="spacer"></div>
 
-<!-- ===== PRODUCT FRAME ===== -->
+<!-- ===== 05 PRODUCT FRAME ===== -->
 <div class="label reveal">05 &mdash; Product Frame</div>
 <div class="product-frame" role="img" aria-label="Left: raw infrared drone imagery. Right: same scene processed by Nova with hotspots detected.">
-  <!-- Raw IR -->
-  <div class="ir-panel raw reveal">
-    <span class="tag">Raw IR &middot; Unprocessed</span>
-    <span class="coords">LAT 50.674 &middot; LON &minus;120.332</span>
-  </div>
-  <!-- Nova processed -->
+  <div class="ir-panel raw reveal"><span class="tag">Raw IR &middot; Unprocessed</span><span class="coords">LAT 50.674 &middot; LON &minus;120.332</span></div>
   <div class="ir-panel nova reveal" style="transition-delay: 0.15s;">
     <span class="tag" style="color: var(--chartreuse);">&#10022; Nova &middot; Hotspot Detection</span>
     <span class="coords" style="color: var(--chartreuse);">3 Hotspots &middot; 94% Conf</span>
-    <div class="hotspot-ring r1"></div>
-    <div class="hotspot-ring r2"></div>
-    <div class="hotspot-ring r3"></div>
-    <span class="hotspot-label l1">HS 274</span>
-    <span class="hotspot-label l2">HS 288</span>
-    <span class="hotspot-label l3">HS 301</span>
+    <div class="hotspot-ring r1"></div><div class="hotspot-ring r2"></div><div class="hotspot-ring r3"></div>
+    <span class="hotspot-label l1">HS 274</span><span class="hotspot-label l2">HS 288</span><span class="hotspot-label l3">HS 301</span>
   </div>
 </div>
-<p class="caption reveal">Before / after &mdash; raw drone thermal feed (left) vs. Nova's AI-processed hotspot map (right)</p>
+
+<div class="spacer-sm"></div>
+
+<div class="product-narrative reveal">
+  <div class="product-narrative-inner">
+    <p>The core product moment. Raw infrared drone imagery is noise &mdash; complex, dense, and time-consuming to interpret manually. Nova&rsquo;s AI processes it automatically, identifies hidden hotspots with confidence scores, and delivers a georeferenced map that ground crews can act on immediately.</p>
+    <blockquote>&ldquo;UAVs are changing mop-up by providing real, objective data that works <em>alongside</em> and reinforces the efforts of crews on the ground.&rdquo;<cite>Matt Dargan &middot; UAV Program Manager, Sacramento Metro Fire</cite></blockquote>
+    <p>That word &mdash; <strong>alongside</strong> &mdash; matters. Nova doesn&rsquo;t replace the crew&rsquo;s judgment. It gives them information they couldn&rsquo;t see before, so they can make better decisions faster.</p>
+  </div>
+</div>
 
 <div class="spacer"></div>
 
-<!-- ===== FIELD CONTEXT ===== -->
+<!-- ===== 06 FIELD CONTEXT ===== -->
 <div class="label reveal">06 &mdash; Field Context</div>
 <div class="field-strip reveal">
   <div class="field-strip-inner">
-    <div class="field-stat">
-      <div class="stat-value">&lt;4</div>
-      <span class="stat-unit">Minutes</span>
-      <div class="stat-desc">From drone launch to actionable hotspot map on crew devices</div>
-    </div>
-    <div class="field-stat">
-      <div class="stat-value">94%</div>
-      <span class="stat-unit">Confidence</span>
-      <div class="stat-desc">AI detection accuracy across varied terrain and canopy density</div>
-    </div>
-    <div class="field-stat">
-      <div class="stat-value">BC</div>
-      <span class="stat-unit">Kamloops &middot; Pacific Northwest</span>
-      <div class="stat-desc">Built for the rugged, high-stakes reality of western Canada's fire season</div>
-    </div>
+    <div class="field-stat"><div class="stat-value">&lt;4</div><span class="stat-unit">Drone Up to Map in Hand</span><div class="stat-desc">From launch to actionable hotspot map delivered to crew devices. With Rapid Mode, processing begins during flight.</div></div>
+    <div class="field-stat"><div class="stat-value">94%</div><span class="stat-unit">Across Canopy, Terrain, and Smoke</span><div class="stat-desc">AI detection accuracy across the conditions that make manual identification unreliable.</div></div>
+    <div class="field-stat"><div class="stat-value">100+</div><span class="stat-unit">Agencies Across North America</span><div class="stat-desc">CAL FIRE. BC Wildfire Service. Sacramento Metro Fire. L.A. City Fire. North Carolina Forest Service.</div></div>
   </div>
 </div>
-<p class="caption reveal">Field performance metrics &mdash; Kamloops, British Columbia test corridor (LAT 50.674, LON &minus;120.332)</p>
+<p class="caption reveal">Field-validated across wildland fire, structure fire, emergency response, search and rescue, and law enforcement operations.</p>
 
 <div class="spacer"></div>
 
-<!-- ===== BRAND VOICE PRINCIPLES ===== -->
-<div class="label reveal">07 &mdash; Brand Voice</div>
-<div class="voice-principles reveal">
-  <div class="vp-grid stagger-children">
-    <div class="vp-card reveal">
-      <div>
-        <div class="vp-label">Principle 01</div>
-        <div class="vp-title">Direct &amp; Authoritative</div>
-        <div class="vp-desc">No fluffy jargon. Punchy, active verbs. Every word earns its place.</div>
+<!-- ============================================================
+     07 — WHAT I'D DO NEXT (interactive)
+     ============================================================ -->
+<div class="label reveal">07 &mdash; What I&rsquo;d Do Next</div>
+
+<div class="s09-intro reveal">
+  <h2>Redesign the Just Ask Jake <em>tutorial experience.</em></h2>
+  <div class="s09-intro-body">
+    <p>Jake Mandel&rsquo;s Tips &amp; Tricks series is one of Nova&rsquo;s most valuable content assets &mdash; a real team member walking real operators through features like Rapid Mode, Upload Flow, and Urban vs. General Mode.</p>
+    <p>The content is clear. Jake&rsquo;s voice is natural and direct. But the format is working against it. Hover each card to see what I&rsquo;d change.</p>
+  </div>
+</div>
+
+<div class="spacer-sm"></div>
+
+<!-- Interactive Before / After cards -->
+<div class="s09-subhead reveal"><h3>What I see right now.</h3></div>
+<div style="height: 24px;"></div>
+
+<div class="ba-grid stagger-children">
+
+  <!-- Card 1: Blog cards not clickable -->
+  <div class="ba-card reveal">
+    <div class="ba-visual">
+      <div class="ba-before">
+        <div class="mock-blog-card">
+          <div class="mbc-img"><div class="mbc-x">&times;</div></div>
+          <div class="mbc-text"><div></div><div></div></div>
+        </div>
       </div>
-      <div class="vp-example">
-        <span class="do-say">&#10003; &ldquo;Detect hotspots instantly. Deploy crews faster.&rdquo;</span><br/>
-        <span class="dont-say">&#10007; &ldquo;Our platform utilizes machine learning to assist users&rdquo;</span>
+      <div class="ba-after">
+        <div class="mock-blog-card-fixed">
+          <div class="mbc-img"><div class="mbc-check">&#10003;</div></div>
+          <div class="mbc-text"><div></div><div></div></div>
+        </div>
       </div>
+      <span class="ba-hint">Hover to fix</span>
     </div>
-    <div class="vp-card reveal">
-      <div>
-        <div class="vp-label">Principle 02</div>
-        <div class="vp-title">Analytical but Grounded</div>
-        <div class="vp-desc">Data provides proof. Messaging ties back to the physical world and the people on the ground.</div>
-      </div>
-      <div class="vp-example">
-        <span class="do-say">&#10003; &ldquo;3 hotspots flagged &middot; 94% confidence &middot; Crew notified&rdquo;</span><br/>
-        <span class="dont-say">&#10007; &ldquo;Advanced neural network processed thermal anomalies&rdquo;</span>
-      </div>
+    <div class="ba-body">
+      <div class="ba-num">1</div>
+      <div class="ba-title">Blog cards aren&rsquo;t fully clickable</div>
+      <div class="ba-desc">The thumbnail image isn&rsquo;t a click target &mdash; only the text beneath it is. Users tap the largest visual element and nothing happens.</div>
+      <div class="ba-fix">&#10003; Make the entire card one click target. Image, title, date, tag &mdash; everything.</div>
     </div>
-    <div class="vp-card reveal">
-      <div>
-        <div class="vp-label">Principle 03</div>
-        <div class="vp-title">Mechanically Precise</div>
-        <div class="vp-desc">Motion is snappy and deliberate. Nothing bouncy or playful. This is professional-grade field equipment.</div>
+  </div>
+
+  <!-- Card 2: No visual consistency -->
+  <div class="ba-card reveal">
+    <div class="ba-visual">
+      <div class="ba-before">
+        <div class="mock-screenshots">
+          <div class="mock-ss tall"><div class="mock-ss-label">480&times;640</div></div>
+          <div class="mock-ss wide"><div class="mock-ss-label">800&times;450</div></div>
+          <div class="mock-ss"><div class="mock-ss-label">400&times;300</div></div>
+        </div>
       </div>
-      <div class="vp-example">
-        <span class="do-say">&#10003; Transitions: 0.35s cubic-bezier(0.16, 1, 0.3, 1)</span><br/>
-        <span class="dont-say">&#10007; Spring-bounce, elastic overshoot, or decorative animation</span>
+      <div class="ba-after">
+        <div class="mock-screenshots-fixed">
+          <div class="mock-ss-fixed"><div class="msf-label">Uniform</div></div>
+          <div class="mock-ss-fixed"><div class="msf-label">Uniform</div></div>
+          <div class="mock-ss-fixed"><div class="msf-label">Uniform</div></div>
+        </div>
       </div>
+      <span class="ba-hint">Hover to fix</span>
+    </div>
+    <div class="ba-body">
+      <div class="ba-num">2</div>
+      <div class="ba-title">Screenshots have no visual consistency</div>
+      <div class="ba-desc">Raw screen captures at inconsistent sizes, varying corner radii, no padding system. Each post looks assembled from clipboard pastes.</div>
+      <div class="ba-fix">&#10003; Uniform containers &mdash; same aspect ratio, same shadow, same padding. Sharp rectangles.</div>
+    </div>
+  </div>
+
+  <!-- Card 3: No annotations -->
+  <div class="ba-card reveal">
+    <div class="ba-visual">
+      <div class="ba-before">
+        <div class="mock-screenshots">
+          <div class="mock-ss"><div class="mock-ss-label">General</div></div>
+          <div class="mock-ss"><div class="mock-ss-label">Rapid</div></div>
+        </div>
+      </div>
+      <div class="ba-after">
+        <div class="mock-screenshots-fixed">
+          <div class="mock-ss-fixed">
+            <div class="msf-label">General Mode</div>
+            <div class="mock-dot" style="top: 35%; left: 55%;">1</div>
+          </div>
+          <div class="mock-ss-fixed">
+            <div class="msf-label">Rapid Mode</div>
+            <div class="mock-dot" style="top: 35%; left: 55%;">1</div>
+            <div class="mock-dot" style="top: 60%; left: 30%;">2</div>
+          </div>
+        </div>
+      </div>
+      <span class="ba-hint">Hover to fix</span>
+    </div>
+    <div class="ba-body">
+      <div class="ba-num">3</div>
+      <div class="ba-title">No annotation or visual guidance</div>
+      <div class="ba-desc">Two screenshots sit side by side with no markers telling the reader what changed or where to look. The reader has to study both images unaided.</div>
+      <div class="ba-fix">&#10003; Numbered callout dots, highlight zones, before/after labels in JetBrains Mono.</div>
+    </div>
+  </div>
+
+  <!-- Card 4: Static format -->
+  <div class="ba-card reveal">
+    <div class="ba-visual">
+      <div class="ba-before">
+        <div class="mock-video-area">
+          <div style="width: 60%; display: flex; flex-direction: column; gap: 6px;">
+            <div style="height: 5px; background: rgba(255,255,255,0.12); width: 90%;"></div>
+            <div style="height: 5px; background: rgba(255,255,255,0.08); width: 70%;"></div>
+            <div style="height: 5px; background: rgba(255,255,255,0.12); width: 80%;"></div>
+            <div style="height: 40px; background: rgba(255,255,255,0.04); margin-top: 4px;"></div>
+            <div style="height: 5px; background: rgba(255,255,255,0.12); width: 85%;"></div>
+            <div style="height: 5px; background: rgba(255,255,255,0.08); width: 60%;"></div>
+          </div>
+        </div>
+      </div>
+      <div class="ba-after">
+        <div class="mock-video-fixed">
+          <div class="mock-play"><svg viewBox="0 0 16 16" fill="currentColor"><polygon points="4,2 14,8 4,14"/></svg></div>
+          <span class="mock-play-duration">0:42</span>
+        </div>
+      </div>
+      <span class="ba-hint">Hover to fix</span>
+    </div>
+    <div class="ba-body">
+      <div class="ba-num">4</div>
+      <div class="ba-title">Static format for procedural content</div>
+      <div class="ba-desc">Paragraph &rarr; screenshot &rarr; paragraph for every post. No video integration even though Nova already produces walkthrough content.</div>
+      <div class="ba-fix">&#10003; Embed demo videos directly in the step where they&rsquo;re relevant. Show the action, not just the result.</div>
     </div>
   </div>
 </div>
 
 <div class="spacer"></div>
 
-<!-- ===== QUOTE BAR ===== -->
-<div class="label reveal">08 &mdash; Brand Promise</div>
-<div class="quote-bar reveal">
-  <div class="quote-bar-inner">
-    <blockquote>&ldquo;We don&rsquo;t make dashboards. We make the <em>invisible</em> visible &mdash; so the people on the ground can act before the fire decides for them.&rdquo;</blockquote>
-    <cite>Nova Maps &middot; Brand Voice</cite>
+<!-- Why this first -->
+<div class="s09-subhead reveal"><h3>Why this first.</h3></div>
+<div style="height: 24px;"></div>
+
+<div class="s09-closing reveal">
+  <div class="s09-closing-inner">
+    <p>Nova publishes a new Jake post roughly every 2&ndash;3 weeks. Each one is currently built from scratch &mdash; screenshots dropped in manually, no reusable layout, no annotation system, no video integration. A repeatable template means every future post ships faster, looks consistent, and teaches more effectively.</p>
+    <p><strong>It also sets a pattern.</strong> The same template thinking &mdash; repeatable structure, consistent containers, annotation layers, embedded media &mdash; extends to case studies, product announcements, partner spotlights, and the Learn Center. Build the system once for Jake. Then let it grow.</p>
   </div>
 </div>
 
@@ -1198,48 +1190,41 @@
 <!-- ===== END CARD ===== -->
 <div class="end-card reveal">
   <div class="end-card-inner">
-    <svg class="star-end" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M12 0 L13.6 10.4 L24 12 L13.6 13.6 L12 24 L10.4 13.6 L0 12 L10.4 10.4 Z"/>
-    </svg>
+    <svg class="logo-end-mark" aria-hidden="true" style="color: var(--chartreuse);"><use href="#nova-logo"/></svg>
     <div class="logo-end">nova</div>
-    <div class="end-tagline">Invisible threats &rarr; Actionable intelligence &middot; Built for the field</div>
+    <div class="end-tagline">Nova doesn&rsquo;t need a rebrand. It needs a design system that matches what the product already delivers. The raw material is here. This concept is a starting point.</div>
+    <div class="end-links">
+      <span>novamaps.vercel.app</span>
+      <span>trankvy.com</span>
+      <span>@nkvtran</span>
+    </div>
   </div>
 </div>
 
 <div class="spacer-sm"></div>
 
-<!-- ===== SCROLL REVEAL + PARALLAX ENGINE ===== -->
 <script>
 (function() {
-  // IntersectionObserver for scroll-triggered reveals
+  // Scroll reveal
   var reveals = document.querySelectorAll('.reveal');
   var observer = new IntersectionObserver(function(entries) {
-    entries.forEach(function(entry) {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('in-view');
-      }
-    });
+    entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('in-view'); });
   }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
-
   reveals.forEach(function(el) { observer.observe(el); });
 
-  // Also observe the flow-bar separately
   var flowBar = document.querySelector('.flow-bar');
   if (flowBar) observer.observe(flowBar);
 
-  // Subtle parallax on scroll — Nova-style depth shift
+  // Parallax
   var parallaxEls = document.querySelectorAll('.mark-card-inner, .flow-card, .end-card-inner');
   var ticking = false;
-
   function onScroll() {
     if (!ticking) {
       requestAnimationFrame(function() {
-        var scrollY = window.pageYOffset;
         parallaxEls.forEach(function(el) {
           var rect = el.getBoundingClientRect();
           var center = rect.top + rect.height / 2;
-          var viewCenter = window.innerHeight / 2;
-          var offset = (center - viewCenter) * 0.035;
+          var offset = (center - window.innerHeight / 2) * 0.035;
           el.style.transform = 'translateY(' + offset + 'px)';
         });
         ticking = false;
@@ -1248,6 +1233,7 @@
     }
   }
   window.addEventListener('scroll', onScroll, { passive: true });
+
 })();
 </script>
 
